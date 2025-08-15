@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Hospital - Admin</title>
+</head>
+<body style="background: lightcyan; font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+<div style="display: flex; flex-direction: column; margin: auto; align-items: center;">
+    <h1>E-Hospital - Admin Panel</h1>
+    <h2>Encrypt / Decrypt Medical Records with 3DES</h2>
+    <label for="file">
+        <h3 style="font-weight: 500;">
+            Choose a file to enrypt or decrypt
+        </h3>
+    </label>
+    <input type="file" id="file" name="file" style="margin-left: 85px; cursor: pointer;"><br>
+    <input type="password" id="key" placeholder="Enter encryption key" style="padding: 0.25rem 0.25rem 0.25rem 0.5rem; border-radius: 10px; border: 1px solid #b2b2b2"><br>
+    
+    <div style="display: flex; gap: 1rem;">
+        <button type="button" onclick="sendFile('1')" style="color: black; border: 1px solid #b2b2b2; border-radius: 10px; padding: 0.5rem; cursor: pointer;">Encrypt</button>
+        <button type="button" onclick="sendFile('2')" style="color: black; border: 1px solid #b2b2b2; border-radius: 10px; padding: 0.5rem; cursor: pointer;">Decrypt</button>
+    </div>
+</div>
+
+<script>
+    async function sendFile(operation) {
+        const fileInput = document.getElementById('file')
+        const keyInput = document.getElementById('key')
+
+        if (!fileInput.files.length) {
+            return alert("Please choose a file first.")
+        }
+        if (!keyInput.value) {
+            return alert("Please enter a key.")
+        }
+
+        const formData = new FormData()
+        formData.append("file", fileInput.files[0])
+        formData.append("operation", operation)
+        formData.append("key", keyInput.value)
+
+        const res =  await fetch("http://localhost:3000/process", {
+            method: "POST",
+            body: formData
+        })
+
+        if (res.ok) {
+            const blob = await res.blob() 
+            const url = URL.createObjectURL(blob)
+            const a = document.createElement("a")
+            a.href = url
+            a.download = fileInput.files[0].name
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+        } else {
+            alert("Error processing file.")
+        }
+    }
+</script>
+</body>
+</html>
