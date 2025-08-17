@@ -4,9 +4,6 @@ FROM node:18-bullseye
 # Install Python + pip
 RUN apt-get update && apt-get install -y python3 python3-pip
 
-# Set working directory
-WORKDIR /app
-
 # Copy package.json first (for caching npm install)
 COPY package*.json ./
 

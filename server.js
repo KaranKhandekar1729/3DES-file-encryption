@@ -15,7 +15,7 @@ app.post("/process", upload.single("file"), (req, res) => {
     const { operation, key } = req.body
     const filePath = req.file.path
 
-    const py = spawn("python", [
+    const py = spawn("python3", [
         "des.py", // python script
         operation, // encrypt/decrypt
         filePath,
