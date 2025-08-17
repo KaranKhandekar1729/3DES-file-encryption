@@ -40,7 +40,7 @@
         formData.append("operation", operation)
         formData.append("key", keyInput.value)
 
-        const res =  await fetch("https://threedes-file-encryption.onrender.com/process", {
+        const res =  await fetch("/process", {
             method: "POST",
             body: formData
         })
