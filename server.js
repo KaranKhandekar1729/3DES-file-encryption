@@ -30,6 +30,13 @@ app.post("/process", upload.single("file"), (req, res) => {
             fs.unlinkSync(filePath)
         })
     })
+    py.stdout.on("data", (data) => {
+        console.log(`PYTHON STDOUT: ${data}`);
+    });
+
+    py.stderr.on("data", (data) => {
+        console.error(`PYTHON STDERR: ${data}`);
+    });
 })
 
 app.listen(3000, () => console.log("Server running at PORT 3000"))

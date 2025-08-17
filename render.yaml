@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: threedes-file-encryption
-    env: node
-    buildCommand: |
-      npm install
-      apt-get update && apt-get install -y python3 python3-pip
-      pip3 install pycryptodome
-    startCommand: node server.js
